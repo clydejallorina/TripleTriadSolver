@@ -42,20 +42,27 @@ def main():
     game = Game(p1_deck=p1_deck, p2_deck=p2_deck)
     game.print_p1_deck()
     game.print_p2_deck()
-    game.print_board_state()
-    game.play_card(1, "Chimera", 2, 2)
-    game.play_card(2, "Biggs & Wedge", 1, 1)
-    game.play_card(1, "Blue Dragon", 0, 0)
     
-    game.print_board_state()
-    pprint(alpha_beta_search(game, 1))
+    game.play_card(1, "Chimera", 2, 2)
+    game.draw_board_state()
+    
+    game.play_card(2, "Biggs & Wedge", 1, 1)
+    game.draw_board_state()
+    
+    game.play_card(1, "Blue Dragon", 0, 0)
+    game.draw_board_state()
     
     game.play_card(2, "Gerolt", 2, 1)
-    game.play_card(1, "Momodi Modi", 0, 1)
-    game.play_card(2, "Frixio", 0, 2)
+    game.draw_board_state()
     
-    game.print_board_state()
+    game.play_card(1, "Momodi Modi", 0, 1)
+    game.draw_board_state()
+    
+    game.play_card(2, "Frixio", 0, 2)
+    game.draw_board_state()
+    
     pprint(alpha_beta_search(game, 1))
+    
     # game.play_card(1, "Scarface Bugaal Ja", 2, 0)
     # game.play_card(2, "Mutamix Bubblypots", 1, 2)
     # game.play_card(1, "Baderon Tenfingers", 1, 0)

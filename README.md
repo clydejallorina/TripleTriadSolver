@@ -8,6 +8,8 @@ The solver works through [alpha-beta pruning](https://en.wikipedia.org/wiki/Alph
 
 As for the game implementation, the card parser assumes that the data is received from [Raelys's Triple Triad Tracker API](https://triad.raelys.com/). This repository will NOT come with their data, and the user must download the card data themselves using their API.
 
+Yes, I do hate myself for putting as much effort into this as I have.
+
 ---
 
 ### Requirements

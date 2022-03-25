@@ -1,6 +1,6 @@
 from pprint import pprint
 from typing import List, Optional, Union # type hinting
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageColor, ImageFont
 
 # Classes needed for the game to work
 
@@ -158,8 +158,54 @@ class Game:
     def print_board_state(self):
         pprint(self.board)
         
-    def draw_board_state(self):
-        pass
+    def draw_board_state(self, size_x=512, size_y=512):
+        """
+        Generate a 512x512 (by default) image of the current board state
+        """
+        # Color palette and font
+        black = ImageColor.getcolor("black", "RGBA")
+        red = ImageColor.getcolor("lightcoral", "RGBA")
+        blue = ImageColor.getcolor("lightblue", "RGBA")
+        font = ImageFont.truetype("arial.ttf", 24)
+        
+        # Create the canvas
+        base_im = Image.new("RGBA", (size_x, size_y), "gray")
+        
+        # Draw grid
+        im = ImageDraw.Draw(base_im)
+        im.line([(size_x // 3, 0), (size_x // 3, size_y)], fill=black, width=2)
+        im.line([(2 * size_x // 3, 0), (2 * size_x // 3, size_y)], fill=black, width=2)
+        im.line([(0, size_y // 3), (size_x, size_y // 3)], fill=black, width=2)
+        im.line([(0, 2 * size_y // 3), (size_x, 2 * size_y // 3)], fill=black, width=2)
+        
+        # Color backgrounds of occupied spaces
+        occupied = self.get_occupied_spaces()
+        for card in occupied:
+            # This is why I should never do front-end stuff
+            x_left = ((card[2] * size_x) // 3) + (min(card[2], 1) * 2)
+            x_right = (((card[2] + 1) * size_x) // 3) - 1
+            y_up = ((card[1] * size_y) // 3) + (min(card[1], 1) * 2)
+            y_down = (((card[1] + 1) * size_y) // 3) - 1
+            inner_fill = [None, blue, red]
+            im.rectangle([(x_left, y_up), (x_right, y_down)], outline=inner_fill[card[0]], fill=inner_fill[card[0]])
+        
+            # Draw card stats on occupied spaces
+            c = self.board[card[1]][card[2]]
+            
+            # Calculate coordinates
+            up_coord = (((x_left + x_right) / 2), (y_up + 5))
+            down_coord = (((x_left + x_right) / 2), (y_down - 5))
+            left_coord = ((x_left + 5), ((y_up + y_down) / 2))
+            right_coord = ((x_right - 5), ((y_up + y_down) / 2))
+            
+            # Place text in coordinates
+            im.text(up_coord, f"{c.up}", anchor="ma", fill=black, font=font)
+            im.text(down_coord, f"{c.down}", anchor="md", fill=black, font=font)
+            im.text(left_coord, f"{c.left}", anchor="lm", fill=black, font=font)
+            im.text(right_coord, f"{c.right}", anchor="rm", fill=black, font=font)
+        
+        # Show the image
+        base_im.show()
         
     def print_p1_deck(self):
         pprint(self.p1_deck.list_cards())
@@ -178,6 +224,19 @@ class Game:
                     r.append(0)
             board.append(r)
         pprint(board)
+        
+    def get_occupied_spaces(self) -> List[List[int]]:
+        """
+        Returns all the cells occupied by a card
+        Output Format is as follows:
+        [ [owner, row, col], ...]
+        """
+        ret = []
+        for r, row in enumerate(self.board):
+            for c, col in enumerate(row):
+                if col != None:
+                    ret.append([col.owned_by, r, c])
+        return ret
         
     def get_available_spaces(self) -> List[List[int]]:
         available_spaces:List[List[int]] = []
