@@ -1,5 +1,6 @@
 from game import *
 from copy import deepcopy
+from functools import cache
 
 INF = 999999 # just some absurdly high number as placeholder for infinity
 DEBUG = True # debug flag for debugging the solver
@@ -21,6 +22,7 @@ def utility(game_state:Game):
     """
     return game_state.check_win()
 
+@cache
 def alpha_beta_search(game_state:Game, player:int) -> Optional[List[Union[str, int]]]:
     """
     Start an alpha-beta search to find the most optimal move
@@ -49,6 +51,7 @@ def alpha_beta_search(game_state:Game, player:int) -> Optional[List[Union[str, i
     # Return the best move for the player
     return [card_name, row, col]
 
+@cache
 def max_val(game_state:Game, alpha:int, beta:int) -> List[Union[int, str]]:
     """
     Calculates the "best" move for player 1
@@ -98,6 +101,7 @@ def max_val(game_state:Game, alpha:int, beta:int) -> List[Union[int, str]]:
     # Return the best found out of all possible moves
     return [value, card_name, row, col]
 
+@cache
 def min_val(game_state:Game, alpha:int, beta:int):
     """
     Calculates the "best" move for player 2

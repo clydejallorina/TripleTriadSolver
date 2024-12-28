@@ -38,6 +38,7 @@ def main():
     card_list = generate_cards("cards.json")
     p1_deck = Deck(card_list[24:29])
     p2_deck = Deck(card_list[31:36])
+    print(len(p1_deck))
     
     game = Game(p1_deck=p1_deck, p2_deck=p2_deck)
     game.print_p1_deck()
@@ -46,29 +47,35 @@ def main():
     game.play_card(1, "Chimera", 2, 2)
     game.draw_board_state()
     
-    game.play_card(2, "Biggs & Wedge", 1, 1)
-    game.draw_board_state()
-    
-    game.play_card(1, "Blue Dragon", 0, 0)
-    game.draw_board_state()
-    
-    game.play_card(2, "Gerolt", 2, 1)
-    game.draw_board_state()
-    
-    game.play_card(1, "Momodi Modi", 0, 1)
-    game.draw_board_state()
-    
-    game.play_card(2, "Frixio", 0, 2)
-    game.draw_board_state()
-    
     pprint(alpha_beta_search(game, 1))
     
+    # game.play_card(2, "Biggs & Wedge", 1, 1)
+    # game.draw_board_state()
+    
+    # game.play_card(1, "Blue Dragon", 0, 0)
+    # game.draw_board_state()
+    
+    # game.play_card(2, "Gerolt", 2, 1)
+    # game.draw_board_state()
+    
+    # game.play_card(1, "Momodi Modi", 0, 1)
+    # game.draw_board_state()
+    
+    # pprint(alpha_beta_search(game, 2))
+    
+    # game.play_card(2, "Frixio", 0, 2)
+    # game.draw_board_state()
+    
+    # pprint(alpha_beta_search(game, 1))
+    
     # game.play_card(1, "Scarface Bugaal Ja", 2, 0)
+    # game.draw_board_state()
+    
     # game.play_card(2, "Mutamix Bubblypots", 1, 2)
+    # game.draw_board_state()
+    
     # game.play_card(1, "Baderon Tenfingers", 1, 0)
-    # game.print_board_state()
-    # game.print_owners()
-    # print(game.check_win())
+    # game.draw_board_state()
 
 if __name__ == "__main__":
     main()
